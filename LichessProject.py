@@ -46,4 +46,3 @@ class LichessProject:
 
 test = LichessProject('DrNykterstein', 10)
 test.printOpenings()
-print(test.gameList)
