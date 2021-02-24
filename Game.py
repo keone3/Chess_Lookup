@@ -1,6 +1,8 @@
 class Game():
 
-    def __init__(self, gameID, colour, openingGeneral, openingSpecific, variant, timeControl, incriment, winner):
+    #fixed spelling from incriment -> increment everywhere I could find it
+    
+    def __init__(self, gameID, colour, openingGeneral, openingSpecific, variant, timeControl, increment, winner):
         
         self.gameID = gameID #Stores the game ID
         self.colour = colour #Stores the colour the user played as
@@ -12,7 +14,7 @@ class Game():
         
         self.variant = variant #stores the variant ex) 'standard' 'bughouse' etc.
         self.timeControl = timeControl #stores the time control ex) 'bullet' 
-        self.incriment = incriment #stores the time incriment
+        self.increment = increment #stores the time increment
         self.winner = winner #stores the winner. True if user won, false otherwise
     
     def getGameID(self):
@@ -33,8 +35,8 @@ class Game():
     def getTimeControl(self):
         return self.timeControl
     
-    def getIncriment(self):
-        return self.incriment
+    def getIncrement(self):
+        return self.increment
         
     def getWinner(self):
         return self.winner

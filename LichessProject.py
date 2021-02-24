@@ -9,7 +9,7 @@ class LichessProject:
         self.user = user
         self.maxGames = maxGames
         self.gameList = []
-        self.newGameList = []#-----list of objects of type game
+        self.newGameList = []
         self.totalGames = 0
         
         self.loadGames()
@@ -26,34 +26,35 @@ class LichessProject:
             specificGame = client.games.export(game['id'])
             self.gameList.append(specificGame)
             
-            #----------------------------------------added code
             opening = 'na'
-            if('opening' in game):
-                opening = game['opening']['name']
-            currGame = Game(game['id'], 'NEED TO ADD', opening, 'NEED TO ADD', game['variant'], game['speed'], 'NEED TO ADD', 'NEED TO ADD')
+            if('opening' in specificGame):
+                opening = specificGame['opening']['name']
+            
+            #--------Added check for our users colour
+            colour = 'na'
+            if('user' in specificGame['players']['white']):
+                if(specificGame['players']['white']['user']['name'] == self.user):
+                    colour = 'white'
+            if('user' in specificGame['players']['black']):    
+                if(specificGame['players']['black']['user']['name'] == self.user):
+                    colour = 'black'
+            
+            #--------Added check for increment time of game
+            increment = 'na'
+            if('clock' in specificGame):
+                increment = specificGame['clock']['increment']
+
+            
+            #--------Fixed using 'game' from for loop instead of 'specificGame' to pull data from
+            currGame = Game(specificGame['id'], colour, opening, 'NEED TO ADD', specificGame['variant'], specificGame['speed'], increment, 'NEED TO ADD')
             self.newGameList.append(currGame)
-            #----------------------------------------end of added code
+
         
         self.totalGames = len(shortGameList)
         print("Obtained " + str(self.totalGames) + " games in "+ str(time.time() - start_time) + " seconds")
-
-    
-    # Returns a list openings from loaded games
-    def getOpenings(self):
-        print("----------------- Getting Openings ----------------")
-        openings = []
-
-        for game in self.gameList:
-            if ('opening' in game):
-                openings.append(game['opening']['name'])
-        return openings
-
-    # Prints list of openings
-    def printOpenings(self):
-        print(self.getOpenings())
-
+        print("---------------------------------------------------")
     
 
-test = LichessProject('FleshyGordon', 10)
-test.printOpenings()
-print(test.newGameList[0].getGameID())
+test = LichessProject('keone3', 10)
+print(test.newGameList[5].getColour())
+print(test.newGameList[5].getIncrement())
