@@ -1,3 +1,4 @@
+from Game import Game
 import berserk
 import time
 
@@ -8,6 +9,7 @@ class LichessProject:
         self.user = user
         self.maxGames = maxGames
         self.gameList = []
+        self.newGameList = []#-----list of objects of type game
         self.totalGames = 0
         
         self.loadGames()
@@ -23,6 +25,14 @@ class LichessProject:
             # Using the game ID, fetch the dict object of that game and append it to gameList
             specificGame = client.games.export(game['id'])
             self.gameList.append(specificGame)
+            
+            #----------------------------------------added code
+            opening = 'na'
+            if('opening' in game):
+                opening = game['opening']['name']
+            currGame = Game(game['id'], 'NEED TO ADD', opening, 'NEED TO ADD', game['variant'], game['speed'], 'NEED TO ADD', 'NEED TO ADD')
+            self.newGameList.append(currGame)
+            #----------------------------------------end of added code
         
         self.totalGames = len(shortGameList)
         print("Obtained " + str(self.totalGames) + " games in "+ str(time.time() - start_time) + " seconds")
@@ -44,5 +54,6 @@ class LichessProject:
 
     
 
-test = LichessProject('DrNykterstein', 10)
+test = LichessProject('FleshyGordon', 10)
 test.printOpenings()
+print(test.newGameList[0].getGameID())
