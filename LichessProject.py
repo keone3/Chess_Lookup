@@ -30,6 +30,18 @@ class LichessProject:
             if('opening' in specificGame):
                 opening = specificGame['opening']['name']
             
+            #--------Added check for opening and specific variation
+            opening = 'na'
+            openingSpecific = -1
+            if('opening' in specificGame):
+                # Split opening name into two parts if possible, split between the delimiter ':'
+                splitOpening = specificGame['opening']['name'].split(":", 1)
+                if(len(splitOpening) == 2):
+                    opening = (splitOpening[0]).strip()
+                    openingSpecific = (splitOpening[1]).strip()
+                else:
+                    opening = (splitOpening[0]).strip()
+
             #--------Added check for our users colour
             colour = 'na'
             if('user' in specificGame['players']['white']):
@@ -44,17 +56,31 @@ class LichessProject:
             if('clock' in specificGame):
                 increment = specificGame['clock']['increment']
 
-            
+            #--------Added check for outcome of game
+            outcome = 'na'
+            if('winner' in specificGame):
+                if(specificGame['winner'] == colour):
+                    outcome = 'win'
+                else:
+                    outcome = 'loss'
+            else:
+                outcome = specificGame['status']
+                
             #--------Fixed using 'game' from for loop instead of 'specificGame' to pull data from
-            currGame = Game(specificGame['id'], colour, opening, 'NEED TO ADD', specificGame['variant'], specificGame['speed'], increment, 'NEED TO ADD')
+            currGame = Game(specificGame['id'], colour, opening, openingSpecific, specificGame['variant'], specificGame['speed'], increment, outcome)
             self.newGameList.append(currGame)
 
         
         self.totalGames = len(shortGameList)
-        print("Obtained " + str(self.totalGames) + " games in "+ str(time.time() - start_time) + " seconds")
+        print("Obtained " + str(self.totalGames) + " games from user " + self.user + " in "+ str(time.time() - start_time) + " seconds")
         print("---------------------------------------------------")
     
 
-test = LichessProject('keone3', 10)
-print(test.newGameList[5].getColour())
-print(test.newGameList[5].getIncrement())
+test = LichessProject('DrNykterstein', 10)
+#print(test.newGameList[0].getVariant())
+#print(test.newGameList[0].getOpening())
+#print(test.newGameList[0].getOpeningSpecific())
+#print(test.newGameList[0].getOutcome())
+
+#for i in range(len(test.newGameList)):
+#    print(test.newGameList[i].getOpeningSpecific())

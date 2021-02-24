@@ -2,7 +2,7 @@ class Game():
 
     #fixed spelling from incriment -> increment everywhere I could find it
     
-    def __init__(self, gameID, colour, openingGeneral, openingSpecific, variant, timeControl, increment, winner):
+    def __init__(self, gameID, colour, openingGeneral, openingSpecific, variant, timeControl, increment, outcome):
         
         self.gameID = gameID #Stores the game ID
         self.colour = colour #Stores the colour the user played as
@@ -15,8 +15,10 @@ class Game():
         self.variant = variant #stores the variant ex) 'standard' 'bughouse' etc.
         self.timeControl = timeControl #stores the time control ex) 'bullet' 
         self.increment = increment #stores the time increment
-        self.winner = winner #stores the winner. True if user won, false otherwise
-    
+        
+        self.outcome = outcome #stores the outcome. If win or loss is not applicable then store 'status' 
+        #-----Note: Issue with boolean here is the possibility of a non win/loss outcome (such as a draw, or the game not starting), changed variable name from winner -> outcome for clarity
+
     def getGameID(self):
         return self.gameID
         
@@ -38,6 +40,6 @@ class Game():
     def getIncrement(self):
         return self.increment
         
-    def getWinner(self):
-        return self.winner
+    def getOutcome(self):
+        return self.outcome
     
