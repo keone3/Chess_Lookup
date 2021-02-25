@@ -32,7 +32,7 @@ class LichessProject:
             
             #--------Added check for opening and specific variation
             opening = 'na'
-            openingSpecific = -1
+            openingSpecific = 'na'
             if('opening' in specificGame):
                 # Split opening name into two parts if possible, split between the delimiter ':'
                 splitOpening = specificGame['opening']['name'].split(":", 1)
@@ -52,7 +52,7 @@ class LichessProject:
                     colour = 'black'
             
             #--------Added check for increment time of game
-            increment = 'na'
+            increment = 0
             if('clock' in specificGame):
                 increment = specificGame['clock']['increment']
 
@@ -76,11 +76,12 @@ class LichessProject:
         print("---------------------------------------------------")
     
 
-test = LichessProject('DrNykterstein', 10)
+test = LichessProject('keone3', 10)
 #print(test.newGameList[0].getVariant())
 #print(test.newGameList[0].getOpening())
 #print(test.newGameList[0].getOpeningSpecific())
 #print(test.newGameList[0].getOutcome())
 
-#for i in range(len(test.newGameList)):
-#    print(test.newGameList[i].getOpeningSpecific())
+print("Games for user: " + test.user + "\n")
+for i in range(len(test.newGameList)):
+    print(test.newGameList[i].getGameID() + ", " + test.newGameList[i].getColour() + ", " + test.newGameList[i].getOpening() + ", " + test.newGameList[i].getOpeningSpecific() + ", " + test.newGameList[i].getVariant() + ", " + test.newGameList[i].getTimeControl() + ", " + str(test.newGameList[i].getIncrement())  + ", " + test.newGameList[i].getOutcome())

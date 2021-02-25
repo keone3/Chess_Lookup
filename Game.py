@@ -10,7 +10,7 @@ class Game():
         #Stores the two portions of the opening name. ex) if the opening is 'Queens Gambit Accepted: Two Knights Variation' then v
         self.openingGeneral = openingGeneral #stores 'Queens Gambit Accepted'
         self.openingSpecific = openingSpecific #stores 'Two Knights Variation'
-        #Note: if there is no second part of the opening then openingSpecific is initialized to -1
+        #Note: if there is no second part of the opening then openingSpecific is set to 'na'
         
         self.variant = variant #stores the variant ex) 'standard' 'bughouse' etc.
         self.timeControl = timeControl #stores the time control ex) 'bullet' 
