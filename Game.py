@@ -44,3 +44,8 @@ class Game():
 
     def getMoves(self):
         return self.moves
+        
+        
+    def printOBJ(self):
+        print('ID: ' + self.gameID + ', Colour: ' + self.colour + ', Opening: ' + self.openingGeneral + ', Specific: ' + self.openingSpecific + ', Outcome:' + self.outcome)
+    
