@@ -14,8 +14,9 @@ class LichessProject:
         self.newGameList = []
         self.totalGames = 0
         
-        
         self.loadGames()
+        
+        #initialized an object of type DataSorter which creates and stored more specific subsets of the games 
         self.sortedLists = DataSorter(self.newGameList)
         
 

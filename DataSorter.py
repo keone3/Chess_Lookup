@@ -13,7 +13,7 @@ class DataSorter():
         self.setWon()
         self.setLost()
         
-    
+    #makes a list of all the games where the user played as white
     def setAsWhite(self):
         
         for game in self.gameList:
@@ -22,6 +22,7 @@ class DataSorter():
                 
                 self.gamesAsWhite.append(game)
                 
+    #makes a list of all the games where the user played as black
     def setAsBlack(self):
         
         for game in self.gameList:
@@ -30,6 +31,7 @@ class DataSorter():
                 
                 self.gamesAsBlack.append(game)
                 
+    #makes a list of the games the user won
     def setWon(self):
         
         for game in self.gameList:
@@ -38,6 +40,7 @@ class DataSorter():
                 
                 self.gamesWon.append(game)
                 
+    #makes a list of the games the user lost
     def setLost(self):
         
         for game in self.gameList:
@@ -47,9 +50,8 @@ class DataSorter():
                 self.gamesLost.append(game)
                 
     
-    def getListOfLost(self):
-        return self.gamesWon
     
+    #for testing purposes to see the contents of the lists
     def printOBJ(self):
         for thing in self.gamesLost:
             print(thing.getOutcome())
