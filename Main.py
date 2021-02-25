@@ -1,4 +1,4 @@
-from AnalysisAlgorithms import *
+import AnalysisAlgorithms 
 from LichessProject import LichessProject
 
 #This is the main file to do all the testing from
