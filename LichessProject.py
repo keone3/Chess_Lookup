@@ -4,11 +4,10 @@ import time
 
 class LichessProject:
     
-    # Takes valid Lichess username and max number of games, then queries them to gameList
+    # Takes valid Lichess username and max number of games
     def __init__(self, user, maxGames):
         self.user = user
         self.maxGames = maxGames
-        self.gameList = []
         self.newGameList = []
         self.totalGames = 0
         
@@ -22,9 +21,8 @@ class LichessProject:
         shortGameList = list(client.games.export_by_player(self.user, max=self.maxGames))
 
         for game in shortGameList:
-            # Using the game ID, fetch the dict object of that game and append it to gameList
+            # Using the game ID, fetch the dict object of that game
             specificGame = client.games.export(game['id'])
-            self.gameList.append(specificGame)
             
             opening = 'na'
             if('opening' in specificGame):
@@ -66,8 +64,12 @@ class LichessProject:
             else:
                 outcome = specificGame['status']
                 
+            moves = []
+            if('moves' in specificGame):
+                moves = specificGame['moves'].split()
+            
             #--------Fixed using 'game' from for loop instead of 'specificGame' to pull data from
-            currGame = Game(specificGame['id'], colour, opening, openingSpecific, specificGame['variant'], specificGame['speed'], increment, outcome)
+            currGame = Game(specificGame['id'], colour, opening, openingSpecific, specificGame['variant'], specificGame['speed'], increment, outcome, str(moves))
             self.newGameList.append(currGame)
 
         
@@ -76,7 +78,7 @@ class LichessProject:
         print("---------------------------------------------------")
     
 
-test = LichessProject('keone3', 10)
+test = LichessProject('fleshygordon', 1)
 #print(test.newGameList[0].getVariant())
 #print(test.newGameList[0].getOpening())
 #print(test.newGameList[0].getOpeningSpecific())
@@ -84,4 +86,4 @@ test = LichessProject('keone3', 10)
 
 print("Games for user: " + test.user + "\n")
 for i in range(len(test.newGameList)):
-    print(test.newGameList[i].getGameID() + ", " + test.newGameList[i].getColour() + ", " + test.newGameList[i].getOpening() + ", " + test.newGameList[i].getOpeningSpecific() + ", " + test.newGameList[i].getVariant() + ", " + test.newGameList[i].getTimeControl() + ", " + str(test.newGameList[i].getIncrement())  + ", " + test.newGameList[i].getOutcome())
+    print(test.newGameList[i].getGameID() + ", " + test.newGameList[i].getColour() + ", " + test.newGameList[i].getOpening() + ", " + test.newGameList[i].getOpeningSpecific() + ", " + test.newGameList[i].getVariant() + ", " + test.newGameList[i].getTimeControl() + ", " + str(test.newGameList[i].getIncrement())  + ", " + test.newGameList[i].getOutcome() + ", " + test.newGameList[i].getMoves())
