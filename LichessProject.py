@@ -1,4 +1,5 @@
 from Game import Game
+from DataSorter import DataSorter
 import berserk
 import time
 
@@ -11,6 +12,9 @@ class LichessProject:
         self.newGameList = []
         self.totalGames = 0
         self.loadGames()
+
+        #initialized an object of type DataSorter which creates and stored more specific subsets of the games 
+        self.sortedLists = DataSorter(self.newGameList)
 
     # Loads games to gameList
     def loadGames(self):
@@ -85,6 +89,8 @@ class LichessProject:
     
 
 test = LichessProject('Fleshygordon', 10)
+
+test.sortedLists.printOBJ()
 
 print("Games for user: " + test.user + "\n")
 for i in range(len(test.newGameList)):
