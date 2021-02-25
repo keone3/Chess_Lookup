@@ -3,6 +3,8 @@ from DataSorter import DataSorter
 import berserk
 import time
 
+#USING THIS CLONE TRY AND FIX BOTTLENECK
+
 class LichessProject:
     
     # Takes valid Lichess username and max number of games
@@ -19,18 +21,13 @@ class LichessProject:
     # Loads games to gameList
     def loadGames(self):
         print("------------------ Getting Games ------------------")
+        print('Est. loading time: ' + str((self.maxGames/20) +1))
         start_time = time.time()
         client = berserk.Client()
-        shortGameList = list(client.games.export_by_player(self.user, max=self.maxGames))
-        loadingPercentage = 0
+        shortGameList = list(client.games.export_by_player(self.user, max=self.maxGames,opening='yes'))
         
-        
-        for game in shortGameList:
-            percent = loadingPercentage/len(shortGameList)
-            print('Loading Games: ' + str(int(percent)) + '%' , end='\r')
-            
-            # Using the game ID, fetch the dict object of that game
-            specificGame = client.games.export(game['id'])
+        for specificGame in shortGameList:
+
             
             #--------Opening and specific variation
             opening = 'na'
@@ -86,10 +83,7 @@ class LichessProject:
                 str(moves)
             )
             self.newGameList.append(currGame)
-            
-            loadingPercentage = loadingPercentage + 100
-
-        print('Loading Games: 100%' , end='\r')
+        
         self.totalGames = len(shortGameList)
         print("Obtained " + str(self.totalGames) + " games from user " + self.user + " in "+ str(time.time() - start_time) + " seconds")
         print("---------------------------------------------------")

@@ -4,7 +4,7 @@ from LichessProject import LichessProject
 #This is the main file to do all the testing from
 
 
-test = LichessProject('Fleshygordon', 10)
+test = LichessProject('Fleshygordon', 100)
 AnalysisAlgorithms.findMostPlayedOpening(test.sortedLists)
 
 # print("Games for user: " + test.user + "\n")
