@@ -6,11 +6,10 @@ class LichessProject:
     
     # Takes valid Lichess username and max number of games
     def __init__(self, user, maxGames):
-        self.user = user
+        self.user = user.lower()
         self.maxGames = maxGames
         self.newGameList = []
         self.totalGames = 0
-        
         self.loadGames()
 
     # Loads games to gameList
@@ -24,11 +23,7 @@ class LichessProject:
             # Using the game ID, fetch the dict object of that game
             specificGame = client.games.export(game['id'])
             
-            opening = 'na'
-            if('opening' in specificGame):
-                opening = specificGame['opening']['name']
-            
-            #--------Added check for opening and specific variation
+            #--------Opening and specific variation
             opening = 'na'
             openingSpecific = 'na'
             if('opening' in specificGame):
@@ -40,21 +35,22 @@ class LichessProject:
                 else:
                     opening = (splitOpening[0]).strip()
 
-            #--------Added check for our users colour
+            #--------Users colour
             colour = 'na'
             if('user' in specificGame['players']['white']):
-                if(specificGame['players']['white']['user']['name'] == self.user):
+                if(specificGame['players']['white']['user']['id'] == self.user):
                     colour = 'white'
-            if('user' in specificGame['players']['black']):    
-                if(specificGame['players']['black']['user']['name'] == self.user):
+
+            if('user' in specificGame['players']['black']): 
+                if(specificGame['players']['black']['user']['id'] == self.user):
                     colour = 'black'
             
-            #--------Added check for increment time of game
+            #--------Increment time of game
             increment = 0
             if('clock' in specificGame):
                 increment = specificGame['clock']['increment']
 
-            #--------Added check for outcome of game
+            #--------Outcome of game
             outcome = 'na'
             if('winner' in specificGame):
                 if(specificGame['winner'] == colour):
@@ -63,13 +59,23 @@ class LichessProject:
                     outcome = 'loss'
             else:
                 outcome = specificGame['status']
-                
+
+            #--------All game moves
             moves = []
             if('moves' in specificGame):
                 moves = specificGame['moves'].split()
             
-            #--------Fixed using 'game' from for loop instead of 'specificGame' to pull data from
-            currGame = Game(specificGame['id'], colour, opening, openingSpecific, specificGame['variant'], specificGame['speed'], increment, outcome, str(moves))
+            currGame = Game(
+                specificGame['id'], 
+                colour, 
+                opening, 
+                openingSpecific, 
+                specificGame['variant'], 
+                specificGame['speed'], 
+                increment, 
+                outcome, 
+                str(moves)
+            )
             self.newGameList.append(currGame)
 
         
@@ -78,12 +84,19 @@ class LichessProject:
         print("---------------------------------------------------")
     
 
-test = LichessProject('fleshygordon', 1)
-#print(test.newGameList[0].getVariant())
-#print(test.newGameList[0].getOpening())
-#print(test.newGameList[0].getOpeningSpecific())
-#print(test.newGameList[0].getOutcome())
+test = LichessProject('Fleshygordon', 10)
 
 print("Games for user: " + test.user + "\n")
 for i in range(len(test.newGameList)):
-    print(test.newGameList[i].getGameID() + ", " + test.newGameList[i].getColour() + ", " + test.newGameList[i].getOpening() + ", " + test.newGameList[i].getOpeningSpecific() + ", " + test.newGameList[i].getVariant() + ", " + test.newGameList[i].getTimeControl() + ", " + str(test.newGameList[i].getIncrement())  + ", " + test.newGameList[i].getOutcome() + ", " + test.newGameList[i].getMoves())
+    print("{}, {}, {}, {}, {}, {}, {}, {}, {}\n".format(
+        test.newGameList[i].getGameID(), 
+        test.newGameList[i].getColour(), 
+        test.newGameList[i].getOpening(), 
+        test.newGameList[i].getOpeningSpecific(), 
+        test.newGameList[i].getVariant(), 
+        test.newGameList[i].getTimeControl(), 
+        str(test.newGameList[i].getIncrement()), 
+        test.newGameList[i].getOutcome(), 
+        test.newGameList[i].getMoves()
+        )
+    )
