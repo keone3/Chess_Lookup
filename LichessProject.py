@@ -22,8 +22,13 @@ class LichessProject:
         start_time = time.time()
         client = berserk.Client()
         shortGameList = list(client.games.export_by_player(self.user, max=self.maxGames))
-
+        loadingPercentage = 0
+        
+        
         for game in shortGameList:
+            percent = loadingPercentage/len(shortGameList)
+            print('Loading Games: ' + str(int(percent)) + '%' , end='\r')
+            
             # Using the game ID, fetch the dict object of that game
             specificGame = client.games.export(game['id'])
             
@@ -81,28 +86,13 @@ class LichessProject:
                 str(moves)
             )
             self.newGameList.append(currGame)
+            
+            loadingPercentage = loadingPercentage + 100
 
-        
+        print('Loading Games: 100%' , end='\r')
         self.totalGames = len(shortGameList)
         print("Obtained " + str(self.totalGames) + " games from user " + self.user + " in "+ str(time.time() - start_time) + " seconds")
         print("---------------------------------------------------")
-    
+  
 
-test = LichessProject('Fleshygordon', 10)
-
-test.sortedLists.printOBJ()
-
-print("Games for user: " + test.user + "\n")
-for i in range(len(test.newGameList)):
-    print("{}, {}, {}, {}, {}, {}, {}, {}, {}\n".format(
-        test.newGameList[i].getGameID(), 
-        test.newGameList[i].getColour(), 
-        test.newGameList[i].getOpening(), 
-        test.newGameList[i].getOpeningSpecific(), 
-        test.newGameList[i].getVariant(), 
-        test.newGameList[i].getTimeControl(), 
-        str(test.newGameList[i].getIncrement()), 
-        test.newGameList[i].getOutcome(), 
-        test.newGameList[i].getMoves()
-        )
-    )
+# All tests that were here have been moved to the Main file

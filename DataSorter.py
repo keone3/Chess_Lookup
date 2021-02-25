@@ -50,7 +50,10 @@ class DataSorter():
                 self.gamesLost.append(game)
                 
     
-    
+    def getGameList(self):
+        
+        return self.gameList
+        
     #for testing purposes to see the contents of the lists
     def printOBJ(self):
         for thing in self.gamesLost:
