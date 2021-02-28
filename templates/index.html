@@ -16,13 +16,13 @@
                         <div class="form-floating mb-3">
                             <input type="text" class="form-control" id="username" name="username" placeholder="Username" aria-describedby="usernameHelp">
                             <label for="username">Username</label>
-                            <div id="usernameHelp" class="form-text text-light">Insert a valid Lichess username</div>
+                            <div id="usernameHelp" class="form-text text-light">{{usernameError}}</div> <!-- Shows error if username is invalid -->
                         </div>
                         <div class="form-floating mb-3">
                             <input type="number" class="form-control" id="numGames" name="numGames" placeholder="Number of games to query">
                             <label for="numGames">Number of games to query</label>
                         </div>
-                        <button type="submit" class="btn btn-secondary">Submit</button>
+                        <button type="submit" class="btn btn-secondary border border-white">Submit</button>
                     </form>
                 </div>
                 <div class="col-4"></div>
