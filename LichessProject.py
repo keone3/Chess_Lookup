@@ -3,7 +3,6 @@ from DataSorter import DataSorter
 import berserk
 import time
 
-#USING THIS CLONE TRY AND FIX BOTTLENECK
 
 class LichessProject:
     
@@ -11,12 +10,12 @@ class LichessProject:
     def __init__(self, user, maxGames):
         self.user = user.lower()
         self.maxGames = maxGames
-        self.newGameList = []
+        self.refinedGameList = []
         self.totalGames = 0
         self.loadGames()
 
         #initialized an object of type DataSorter which creates and stored more specific subsets of the games 
-        self.sortedLists = DataSorter(self.newGameList)
+        self.gameDatabase = DataSorter(self.refinedGameList)
 
     # Loads games to gameList
     def loadGames(self):
@@ -24,9 +23,9 @@ class LichessProject:
         print('Est. loading time: ' + str((self.maxGames/20) +1))
         start_time = time.time()
         client = berserk.Client()
-        shortGameList = list(client.games.export_by_player(self.user, max=self.maxGames,opening='yes'))
+        rawGameList = list(client.games.export_by_player(self.user, max=self.maxGames,opening='yes'))
         
-        for specificGame in shortGameList:
+        for specificGame in rawGameList:
 
             
             #--------Opening and specific variation
@@ -80,11 +79,11 @@ class LichessProject:
                 specificGame['speed'], 
                 increment, 
                 outcome, 
-                str(moves)
+                moves
             )
-            self.newGameList.append(currGame)
+            self.refinedGameList.append(currGame)
         
-        self.totalGames = len(shortGameList)
+        self.totalGames = len(rawGameList)
         print("Obtained " + str(self.totalGames) + " games from user " + self.user + " in "+ str(time.time() - start_time) + " seconds")
         print("---------------------------------------------------")
   

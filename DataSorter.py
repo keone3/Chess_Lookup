@@ -1,6 +1,8 @@
 class DataSorter():
 
     def __init__(self, gameList):
+        #params
+        # list - gameList, stores a list of obJects of type Game
         
         self.gameList = gameList
         self.gamesAsBlack = []
@@ -13,6 +15,14 @@ class DataSorter():
         self.setWon()
         self.setLost()
         
+    def createGameListByFirstMove(self,move):#takes parameter move of type string, contains move to sort by
+    
+        gamesByMove = []
+        for game in self.gamesAsBlack:
+            if(game.getMoves()[0] == move):
+                gamesByMove.append(game)
+        return gamesByMove
+
     #makes a list of all the games where the user played as white
     def setAsWhite(self):
         
@@ -48,28 +58,26 @@ class DataSorter():
             if (game.getOutcome() == 'loss'):
                 
                 self.gamesLost.append(game)
-                
-    
+
+    # getters
     def getGameList(self):
-        
         return self.gameList
+
+    def getGamesAsBlack(self):
+        return self.gamesAsBlack
         
-    #for testing purposes to see the contents of the lists
-    def printOBJ(self):
-        for thing in self.gamesLost:
-            print(thing.getOutcome())
-            
-        print('\n')
-        for thing in self.gamesWon:
-            print(thing.getOutcome())
-            
-        print('\n')
-        for thing in self.gamesAsBlack:
-            print(thing.getColour())
-            
-        print('\n')
-        for thing in self.gamesAsWhite:
-            print(thing.getColour())
+    def getGamesAsWhite(self):
+        return self.gamesAsWhite
+
+    def getGamesLost(self):
+        return self.gamesLost
+
+    def getGamesWon(self):
+        return self.gamesWon
+
+    #__str__
+    def __str__(self):
+        return 'Won '+str(len(self.gamesWon)) +' games\nLost '+str(len(self.gamesLost))  +' games\nPlayed ' + str(len(self.gamesAsWhite))+' games as white\n' + 'Played ' + str(len(self.gamesAsBlack))+' games as black\n'
            
     
     
