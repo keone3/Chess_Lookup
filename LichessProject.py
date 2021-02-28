@@ -25,6 +25,8 @@ class LichessProject:
         client = berserk.Client()
         rawGameList = list(client.games.export_by_player(self.user, max=self.maxGames,opening='yes'))
         
+        
+
         for specificGame in rawGameList:
 
             
