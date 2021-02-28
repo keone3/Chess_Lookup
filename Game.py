@@ -55,6 +55,4 @@ class Game():
         return self.moves
     
     def __str__(self):
-        return 'ID: ' + self.gameID + '\nColour: ' + self.colour + '\nOpening: ' + self.openingGeneral + '\nSpecific: ' + self.openingSpecific + '\nOutcome: ' + self.outcome
-        
-    
+        return 'ID: ' + self.gameID + ' Colour: ' + self.colour + ' Opening: ' + self.openingGeneral + ' Specific: ' + self.openingSpecific + ' Outcome: ' + self.outcome

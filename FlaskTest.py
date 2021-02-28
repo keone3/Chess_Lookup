@@ -5,9 +5,9 @@ import AnalysisAlgorithms
 
 app = Flask(__name__)
 
-@app.route("/")
+@app.route('/')
 def home():
-    return render_template('test_template.html')
+    return render_template('index.html')
 
 @app.route('/', methods=['POST'])
 def home_post():
@@ -15,8 +15,15 @@ def home_post():
     numGames = int(request.form['numGames'])
 
     test = LichessProject(username, numGames)
+    
+    mostCommonOpening = AnalysisAlgorithms.findMostPlayedOpening(test.gameDatabase)
 
-    return(AnalysisAlgorithms.findMostPlayedOpening(test.gameDatabase))
+    gameInfo = []
+    for i in range(len(test.refinedGameList)):
+        gameInfo.append(str(test.refinedGameList[i]))
+    
+    return render_template('game_stats.html', mostCommonOpening=mostCommonOpening, gameInfo=gameInfo)
+
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
