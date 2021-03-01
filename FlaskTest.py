@@ -34,9 +34,10 @@ def home_post():
     test = LichessProject(username, numGames)
     mostCommonOpening = AnalysisAlgorithms.findMostPlayedOpening(test.gameDatabase)
 
+    # gameInfo is a list of dicts
     gameInfo = []
     for i in range(len(test.refinedGameList)):
-        gameInfo.append(str(test.refinedGameList[i]))
+        gameInfo.append((test.refinedGameList[i].getGameDict()))
     
     return render_template('game_stats.html', mostCommonOpening=mostCommonOpening, gameInfo=gameInfo)
 

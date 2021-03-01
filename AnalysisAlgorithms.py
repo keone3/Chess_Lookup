@@ -33,7 +33,7 @@ def findMostPlayedOpening(gameDatabase):#takes an object of type DataSorter as a
     for opening in tempList:
         if (opening.getCount() > mostPlayed.getCount()):
             mostPlayed = opening
-    return('This users favourive opening is ' + mostPlayed.getName() + '. They have played it ' + str(mostPlayed.getCount()) + ' times.\n')
+    return('This users favourive opening is the ' + mostPlayed.getName() + '. They have played it ' + str(mostPlayed.getCount()) + ' times.\n')
 
 
 # prints the most common response a player has to a specified first move
