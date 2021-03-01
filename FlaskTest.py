@@ -24,7 +24,7 @@ def home_post():
         usernameError = "Username Empty"
         badInfo = True
     else:
-        username = str(request.form['username'])
+        username = str(request.form['username'].strip())
 
     if(numGames == ''):
         numGamesError = "Number of Games Empty"
