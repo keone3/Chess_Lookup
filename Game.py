@@ -55,6 +55,8 @@ class Game():
         return self.moves
     
     def __str__(self):
-        return 'ID: ' + self.gameID + '\nColour: ' + self.colour + '\nOpening: ' + self.openingGeneral + '\nSpecific: ' + self.openingSpecific + '\nOutcome: ' + self.outcome
-        
-    
+        return 'ID: ' + self.gameID + ' Colour: ' + self.colour + ' Opening: ' + self.openingGeneral + ' Specific: ' + self.openingSpecific + ' Outcome: ' + self.outcome
+
+    # Return dict of game info
+    def getGameDict(self):
+        return dict(id=self.gameID, colour=self.colour, opening=self.openingGeneral, specific=self.openingSpecific, outcome=self.outcome)

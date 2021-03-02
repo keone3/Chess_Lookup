@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <title>Game Statistics</title>
+</head>
+
+<body>
+
+    <div class="container bg-light border border-dark mt-3">
+        <div class="d-flex">
+            <div class="me-auto fs-2 fw-bold">{{correctCaseUsername}}</div>
+            <div class="p-2">Loaded {{totalGames}} games in {{loadTime}} seconds</div>
+        </div>
+        <div class="mb-3">
+            Online: {{userOnline}}<br>
+            {{userTitle}}
+        </div>
+    </div>
+
+    <div class="container bg-light border border-dark mt-3 mb-3">
+        <h1>Game Statistics</h1>
+        <b>{{mostCommonOpening}}</b>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Id</th>
+                    <th scope="col">Colour</th>
+                    <th scope="col">Opening</th>
+                    <th scope="col">Opening Variation</th>
+                    <th scope="col">Outcome</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <!-- Populate rows and colour them based on outcome of the game -->
+                {% for dict_item in gameInfo %}
+                    <tr>
+                    <th scope="row">{{loop.index}}</th>
+                    {% for key, value in dict_item.items() %}
+                        {% if dict_item["outcome"] == 'win' %}
+                            <td class="table-success">{{value}}</td>
+                        {% elif dict_item["outcome"] == 'loss' %}
+                            <td class="table-danger">{{value}}</td>
+                        {% else %}
+                            <td class="table-secondary">{{value}}</td>
+                        {% endif %}
+                    {% endfor %}
+                    </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+</body>
+</html>
