@@ -7,9 +7,21 @@
 </head>
 
 <body>
+
+    <div class="container bg-light border border-dark mt-3">
+        <div class="d-flex">
+            <div class="me-auto fs-2 fw-bold">{{correctCaseUsername}}</div>
+            <div class="p-2">Loaded {{totalGames}} games in {{loadTime}} seconds</div>
+        </div>
+        <div class="mb-3">
+            Online: {{userOnline}}<br>
+            {{userTitle}}
+        </div>
+    </div>
+
     <div class="container bg-light border border-dark mt-3 mb-3">
         <h1>Game Statistics</h1>
-        <p><b>{{mostCommonOpening}}</b></p>
+        <b>{{mostCommonOpening}}</b>
 
         <table class="table">
             <thead>
@@ -24,11 +36,18 @@
             </thead>
             <tbody>
 
+                <!-- Populate rows and colour them based on outcome of the game -->
                 {% for dict_item in gameInfo %}
                     <tr>
                     <th scope="row">{{loop.index}}</th>
                     {% for key, value in dict_item.items() %}
-                        <td>{{value}}</td>
+                        {% if dict_item["outcome"] == 'win' %}
+                            <td class="table-success">{{value}}</td>
+                        {% elif dict_item["outcome"] == 'loss' %}
+                            <td class="table-danger">{{value}}</td>
+                        {% else %}
+                            <td class="table-secondary">{{value}}</td>
+                        {% endif %}
                     {% endfor %}
                     </tr>
                 {% endfor %}

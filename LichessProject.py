@@ -12,6 +12,7 @@ class LichessProject:
         self.maxGames = maxGames
         self.refinedGameList = []
         self.totalGames = 0
+        self.loadTime = ''
         self.loadGames()
 
         #initialized an object of type DataSorter which creates and stored more specific subsets of the games 
@@ -23,13 +24,10 @@ class LichessProject:
         print('Est. loading time: ' + str((self.maxGames/20) +1))
         start_time = time.time()
         client = berserk.Client()
-        rawGameList = list(client.games.export_by_player(self.user, max=self.maxGames,opening='yes'))
-        
-        
+        rawGameList = list(client.games.export_by_player(self.user, max=self.maxGames, opening='yes'))
 
         for specificGame in rawGameList:
 
-            
             #--------Opening and specific variation
             opening = 'na'
             openingSpecific = 'na'
@@ -85,9 +83,9 @@ class LichessProject:
             )
             self.refinedGameList.append(currGame)
         
-        self.totalGames = len(rawGameList)
-        print("Obtained " + str(self.totalGames) + " games from user " + self.user + " in "+ str(time.time() - start_time) + " seconds")
+        self.totalGames = str(len(rawGameList))
+        self.loadTime =  time.time() - start_time
+        print("Obtained " + self.totalGames + " games from user " + self.user + " in "+ str(self.loadTime) + " seconds")
         print("---------------------------------------------------")
-  
 
 # All tests that were here have been moved to the Main file
