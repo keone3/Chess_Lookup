@@ -1,4 +1,7 @@
-const username = 'fleshygordon'
+/* Get the url parameters */
+const urlParams = new URLSearchParams(window.location.search);
+const username = urlParams.get('username').trim()
+
 var api_url = "https://lichess.org/api/games/user/" + username + "?max=10&opening=true" /* The default game request url until we update it inside getData */
 var newGames /* New list of games created from request url */
 var newGamesTrimed = [] /* One individual match's information to populate a single row of our table */
