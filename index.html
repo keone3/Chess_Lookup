@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <style>
+        table, td, th {
+            border: 1px solid black;
+            width: 300px;
+         }
+         td {
+            text-align:center
+         }
+    </style>
+    <meta charset="UTF-8">
+    <title>Build a table</title>
+</head>
+<body>
+
+    <form action="index.html">
+        <label for='username'>Username:</label><br>
+        <input type='text' id='username' name='username'><br>
+        <input type='submit' value='submit'>
+    </form>
+
+    <table id="myTable" style="width: 50%;">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>How long ago</th>
+                <th>Id</th>
+                <th>Game Type</th>
+                <th>Opening</th>
+                <th>White</th>
+                <th>Black</th>
+                <th>Winner</th>
+            </tr>
+        </thead>
+        <tbody id = "tbody">
+            <!-- populate here-->
+        </tbody>
+    </table>
+
+    <input type="button" value="Load more games" onclick="getData()">
+
+    <!-- <iframe src="https://lichess.org/embed/h255yrH1#76" width=600 height=397 frameborder=0></iframe> --> 
+    <!-- https://lichess.org/developers -->
+
+    <script src="table.js"></script>
+</body>
+</html>
