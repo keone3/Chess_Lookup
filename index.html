@@ -1,49 +1,51 @@
 <!DOCTYPE HTML>
 <html lang="en">
 <head>
-    <style>
-        table, td, th {
-            border: 1px solid black;
-            width: 300px;
-         }
-         td {
-            text-align:center
-         }
-    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
     <meta charset="UTF-8">
     <title>Build a table</title>
 </head>
 <body>
+    <div class="container-fluid">
+        <div class="row">
+                <div class="col-3 bg-light border border-dark">
+                    <form class="text-center m-3" action="index.html">
+                        <label for='username'>Username:</label><br>
+                        <input type='text' id='username' name='username'>
+                        <input type='submit' value='submit'>
+                    </form>
+                </div>
+            <div class="col-9 bg-light border border-dark"></div>
+        </div>
+            <div class="row">
+                <div class="col-3 bg-light border border-dark"></div>
+                <div class="col-9 bg-light border border-dark">
+                    <table class="table" id="myTable">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>How long ago</th>
+                                <th>Id</th>
+                                <th>Game Type</th>
+                                <th>Opening</th>
+                                <th>White</th>
+                                <th>Black</th>
+                                <th>Winner</th>
+                            </tr>
+                        </thead>
+                        <tbody id = "tbody">
+                            <!-- populate here-->
+                        </tbody>
+                    </table>
+                <input type="button" value="Load more games" onclick="getData()">
+            </div>
+        </div>
+    </div>
 
-    <form action="index.html">
-        <label for='username'>Username:</label><br>
-        <input type='text' id='username' name='username'><br>
-        <input type='submit' value='submit'>
-    </form>
-
-    <table id="myTable" style="width: 50%;">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>How long ago</th>
-                <th>Id</th>
-                <th>Game Type</th>
-                <th>Opening</th>
-                <th>White</th>
-                <th>Black</th>
-                <th>Winner</th>
-            </tr>
-        </thead>
-        <tbody id = "tbody">
-            <!-- populate here-->
-        </tbody>
-    </table>
-
-    <input type="button" value="Load more games" onclick="getData()">
 
     <!-- <iframe src="https://lichess.org/embed/h255yrH1#76" width=600 height=397 frameborder=0></iframe> --> 
     <!-- https://lichess.org/developers -->
-
     <script src="table.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
 </body>
 </html>
