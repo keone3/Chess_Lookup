@@ -5,6 +5,9 @@
     <meta charset="UTF-8">
     <title>Userdata</title>
 </head>
+
+
+
 <body>
     <div class="container-fluid">
         <div class="row">
@@ -33,13 +36,13 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>How long ago</th>
-                                        <th>Id</th>
-                                        <th>Game Type</th>
+                                        <th>Date</th>
+                                        <th>User</th>
+                                        <th>vs</th>
+                                        <th>Opponent</th>
                                         <th>Opening</th>
-                                        <th>White</th>
-                                        <th>Black</th>
-                                        <th>Winner</th>
+                                        <th>Result</th>
+                                        <th>Extra</th>
                                     </tr>
                                 </thead>
                                 <tbody id = "tbody">
@@ -61,10 +64,15 @@
         </div>
     </div>
 
-
     <!-- <iframe src="https://lichess.org/embed/h255yrH1#76" width=600 height=397 frameborder=0></iframe> --> 
     <!-- https://lichess.org/developers -->
-    <script src="table.js"></script>
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+    <script src="src/Game.js"></script>
+    <script src="src/ListNode.js"></script>
+    <script src="src/LinkedList.js"></script>
+    <script src="src/GameDatabase.js"></script>
+    <script src="table.js"></script>
+    
 </body>
 </html>
