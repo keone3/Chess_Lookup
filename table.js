@@ -12,7 +12,7 @@ var loadingGames = false /* Checks if we are in getData and won't let us enter i
 /* Load the first 10 games right away */
 getData()
 
-async function getData() {
+async function getData() { 
 	if(loadingGames == false){
 		loadingGames = true
 		
