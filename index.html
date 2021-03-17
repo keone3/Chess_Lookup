@@ -16,12 +16,29 @@
             <div class="col-9 bg-light border border-dark">
             </div>
         </div>
-            <div class="row">
+            <div class="row h-100">
                 <div class="col-3 bg-light border border-dark">
                     <form class="form-floating mb-3 mt-3" action="index.html">
                         <input type="text" class="form-control mb-3" id="username" name="username" placeholder="Username">
                         <label for="username">Lichess Username</label>
                     </form>
+                    <div>
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="gamesByNumber" onclick="updateGamesByNumber()" checked>
+                        <label class="form-check-label" for="flexRadioDefault1">Get games by number</label>
+                    </div>
+                    <div>
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="gamesByDate" onclick="updateGamesByDate()">
+                        <label class="form-check-label" for="flexRadioDefault1">Get games by date</label>
+                    </div>
+                    <div class="form-group">
+                        <label for="games" id="byNumberLable">Games:</label>
+                        <input type="text" class="form-control" id="byNumber">
+                    </div>
+                    <div class="form-group">
+                        <label for="date" id="byDateLable" hidden>Date:</label>
+                        <input type="text" class="form-control" id="byDate" hidden>
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="newUser()">Update</button>
                 </div>
                 <div class="col-9 bg-light border border-dark">
                     <nav>

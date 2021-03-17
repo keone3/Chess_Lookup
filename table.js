@@ -15,6 +15,48 @@ getData()
 
 var database = new GameDatabase()
 
+function updateGamesByDate(){
+	
+	if(document.getElementById('byDate').hidden){
+		document.getElementById('byDate').hidden = false
+		document.getElementById('byDateLable').hidden = false
+		document.getElementById('byNumber').hidden = true
+		document.getElementById('byNumberLable').hidden = true
+	}else{
+
+	}
+	
+
+}
+
+function updateGamesByNumber(){
+
+	if(document.getElementById('byNumber').hidden){
+		document.getElementById('byNumber').hidden = false
+		document.getElementById('byNumberLable').hidden = false
+		document.getElementById('byDate').hidden = true
+		document.getElementById('byDateLable').hidden = true
+	}else{
+
+	}
+
+}
+
+function newUser(){
+
+	if(document.getElementById('byNumber').hidden){
+		let dateSince = document.getElementById('byDate').value
+		//date code here
+	}else{
+		let numberOfGames = document.getElementById('byNumber').value
+		api_url = "https://lichess.org/api/games/user/" + username + "?max=" + numberOfGames + "&opening=true"
+	}
+	getData()
+
+}
+
+
+
 async function getData() {
 	timesQueried++
 	if(loadingGames == false){
@@ -30,9 +72,9 @@ async function getData() {
 		console.log(newGames)
 
 		// Update the url for the next request 
-		api_url = "https://lichess.org/api/games/user/" + username + "?max=10&opening=true&until=" + (newGames[9]['createdAt'] - 1)
+		//api_url = "https://lichess.org/api/games/user/" + username + "?max=10&opening=true&until=" + (newGames[9]['createdAt'] - 1)
 
-
+		database.fullGameList.clear()
 		
 		for(let i = 0; i < newGames.length; i++){
 			let specificMatch = newGames[i]
@@ -133,11 +175,16 @@ function addRows(){
 	var numNewRows = 10
 
 	let game = database.fullGameList.getHead()
-	let i = 1 + (timesQueried-1)*(10)
-	
-	for (let j = 0; j < (timesQueried-1)*(10); j++){
-		game = game.getNext()
+	let i = 1
+	let table = document.getElementById('tbody')
+	while(table.rows.length > 0){
+		table.deleteRow(0)
 	}
+	
+
+	// for (let j = 0; j < (timesQueried-1)*(10); j++){
+	// 	game = game.getNext()
+	// }
 	while(game != null){
 		
 		let row = document.getElementById('tbody').insertRow()
