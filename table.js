@@ -1,61 +1,58 @@
 /* Get the url parameters */
 const urlParams = new URLSearchParams(window.location.search);
-const username = urlParams.get('username').trim()
+const username = urlParams.get("username").trim();
 
-var api_url = "https://lichess.org/api/games/user/" + username + "?max=10&opening=true" /* The default game request url until we update it inside getData */
-var newGames /* New list of games created from request url */
-var newGamesTrimed = [] /* One individual match's information to populate a single row of our table */
-var gameCounter = 0 /* Used to keep track of row number/how many games we have in the table */
-var loadingGames = false /* Checks if we are in getData and won't let us enter it again until the last one is finished, 
+var api_url =
+  "https://lichess.org/api/games/user/" +
+  username +
+  "?max=10&opening=true"; /* The default game request url until we update it inside getData */
+var newGames; /* New list of games created from request url */
+var newGamesTrimed = []; /* One individual match's information to populate a single row of our table */
+var gameCounter = 0; /* Used to keep track of row number/how many games we have in the table */
+var loadingGames = false; /* Checks if we are in getData and won't let us enter it again until the last one is finished, 
 							this stops problems with spamming the get games button  */
-var timesQueried = 0
+var timesQueried = 0;
 /* Load the first 10 games right away */
 
-getData()
+getData();
 
-var database = new GameDatabase()
+var database = new GameDatabase();
 
-function updateGamesByDate(){
-	
-	if(document.getElementById('byDate').hidden){
-		document.getElementById('byDate').hidden = false
-		document.getElementById('byDateLable').hidden = false
-		document.getElementById('byNumber').hidden = true
-		document.getElementById('byNumberLable').hidden = true
-	}else{
-
-	}
-	
-
+function updateGamesByDate() {
+  if (document.getElementById("byDate").hidden) {
+    document.getElementById("byDate").hidden = false;
+    document.getElementById("byDateLable").hidden = false;
+    document.getElementById("byNumber").hidden = true;
+    document.getElementById("byNumberLable").hidden = true;
+  } else {
+  }
 }
 
-function updateGamesByNumber(){
-
-	if(document.getElementById('byNumber').hidden){
-		document.getElementById('byNumber').hidden = false
-		document.getElementById('byNumberLable').hidden = false
-		document.getElementById('byDate').hidden = true
-		document.getElementById('byDateLable').hidden = true
-	}else{
-
-	}
-
+function updateGamesByNumber() {
+  if (document.getElementById("byNumber").hidden) {
+    document.getElementById("byNumber").hidden = false;
+    document.getElementById("byNumberLable").hidden = false;
+    document.getElementById("byDate").hidden = true;
+    document.getElementById("byDateLable").hidden = true;
+  } else {
+  }
 }
 
-function newUser(){
-
-	if(document.getElementById('byNumber').hidden){
-		let dateSince = document.getElementById('byDate').value
-		//date code here
-	}else{
-		let numberOfGames = document.getElementById('byNumber').value
-		api_url = "https://lichess.org/api/games/user/" + username + "?max=" + numberOfGames + "&opening=true"
-	}
-	getData()
-
+function newUser() {
+  if (document.getElementById("byNumber").hidden) {
+    let dateSince = document.getElementById("byDate").value;
+    //date code here
+  } else {
+    let numberOfGames = document.getElementById("byNumber").value;
+    api_url =
+      "https://lichess.org/api/games/user/" +
+      username +
+      "?max=" +
+      numberOfGames +
+      "&opening=true";
+  }
+  getData();
 }
-
-
 
 async function getData() {
 	timesQueried++
@@ -161,7 +158,6 @@ async function getData() {
 	}
 }
 
-
 /* Fetch 10 games and desplay them on the table, then on button click, fetch 10 more games starting from the oldest game time in the last request, 
 then desplay those on the table too
 
@@ -213,52 +209,51 @@ function addRows(){
 
 }
 
-
 /* https://stackoverflow.com/questions/3177836/how-to-format-time-since-xxx-e-g-4-minutes-ago-similar-to-stack-exchange-site */
 function timeSince(date) {
-	if (typeof date !== 'object') {
-	  date = new Date(date)
-	}
-  
-	var seconds = Math.floor((new Date() - date) / 1000)
-	var intervalType
-  
-	var interval = Math.floor(seconds / 31536000)
-	if (interval >= 1) {
-	  intervalType = 'year'
-	} else {
-	  interval = Math.floor(seconds / 2592000)
-	  if (interval >= 1) {
-		intervalType = 'month'
-	  } else {
-		interval = Math.floor(seconds / 604800)
-		if (interval >= 1) {
-		  intervalType = 'week'
-		} else {
-		  interval = Math.floor(seconds / 86400)
-		if (interval >= 1) {
-		  intervalType = 'day'
-		} else {
-		  interval = Math.floor(seconds / 3600)
-		  if (interval >= 1) {
-			intervalType = "hour"
-		  } else {
-			interval = Math.floor(seconds / 60);
-			if (interval >= 1) {
-			  intervalType = "minute"
-			} else {
-			  interval = seconds
-			  intervalType = "second"
-			}
-			}
-		  }
-		}
-	  }
-	}
-  
-	if (interval > 1 || interval === 0) {
-	  intervalType += 's'
-	}
-  
-	return interval + ' ' + intervalType + ' ago'
+  if (typeof date !== "object") {
+    date = new Date(date);
+  }
+
+  var seconds = Math.floor((new Date() - date) / 1000);
+  var intervalType;
+
+  var interval = Math.floor(seconds / 31536000);
+  if (interval >= 1) {
+    intervalType = "year";
+  } else {
+    interval = Math.floor(seconds / 2592000);
+    if (interval >= 1) {
+      intervalType = "month";
+    } else {
+      interval = Math.floor(seconds / 604800);
+      if (interval >= 1) {
+        intervalType = "week";
+      } else {
+        interval = Math.floor(seconds / 86400);
+        if (interval >= 1) {
+          intervalType = "day";
+        } else {
+          interval = Math.floor(seconds / 3600);
+          if (interval >= 1) {
+            intervalType = "hour";
+          } else {
+            interval = Math.floor(seconds / 60);
+            if (interval >= 1) {
+              intervalType = "minute";
+            } else {
+              interval = seconds;
+              intervalType = "second";
+            }
+          }
+        }
+      }
+    }
+  }
+
+  if (interval > 1 || interval === 0) {
+    intervalType += "s";
+  }
+
+  return interval + " " + intervalType + " ago";
 }

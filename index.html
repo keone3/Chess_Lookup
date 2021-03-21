@@ -1,7 +1,9 @@
 <!DOCTYPE HTML>
 <html lang="en">
+
 <head>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
     <meta charset="UTF-8">
     <title>Userdata</title>
 </head>
@@ -11,85 +13,95 @@
 <body>
     <div class="container-fluid">
         <div class="row">
-                <div class="col-3 bg-light border border-dark">
-                </div>
+            <div class="col-3 bg-light border border-dark">
+            </div>
             <div class="col-9 bg-light border border-dark">
             </div>
         </div>
-            <div class="row h-100">
-                <div class="col-3 bg-light border border-dark">
-                    <form class="form-floating mb-3 mt-3" action="index.html">
-                        <input type="text" class="form-control mb-3" id="username" name="username" placeholder="Username">
-                        <label for="username">Lichess Username</label>
-                    </form>
-                    <div>
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="gamesByNumber" onclick="updateGamesByNumber()" checked>
-                        <label class="form-check-label" for="flexRadioDefault1">Get games by number</label>
-                    </div>
-                    <div>
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="gamesByDate" onclick="updateGamesByDate()">
-                        <label class="form-check-label" for="flexRadioDefault1">Get games by date</label>
-                    </div>
-                    <div class="form-group">
-                        <label for="games" id="byNumberLable">Games:</label>
-                        <input type="text" class="form-control" id="byNumber">
-                    </div>
-                    <div class="form-group">
-                        <label for="date" id="byDateLable" hidden>Date:</label>
-                        <input type="text" class="form-control" id="byDate" hidden>
-                    </div>
-                    <button type="button" class="btn btn-primary" onclick="newUser()">Update</button>
+        <div class="row h-100">
+            <div class="col-3 bg-light border border-dark">
+                <form class="form-floating mb-3 mt-3" action="index.html">
+                    <input type="text" class="form-control mb-3" id="username" name="username" placeholder="Username">
+                    <label for="username">Lichess Username</label>
+                </form>
+                <div>
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="gamesByNumber"
+                        onclick="updateGamesByNumber()" checked>
+                    <label class="form-check-label" for="flexRadioDefault1">Get games by number</label>
                 </div>
-                <div class="col-9 bg-light border border-dark">
-                    <nav>
-                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                            <button class="nav-link active" id="nav-games-tab" data-bs-toggle="tab" data-bs-target="#nav-games" type="button" role="tab" aria-controls="nav-games" aria-selected="true">Games</button>
-                            <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</button>
+                <div>
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="gamesByDate"
+                        onclick="updateGamesByDate()">
+                    <label class="form-check-label" for="flexRadioDefault1">Get games by date</label>
+                </div>
+                <div class="form-group">
+                    <label for="games" id="byNumberLable">Games:</label>
+                    <input type="text" class="form-control" id="byNumber">
+                </div>
+                <div class="form-group">
+                    <label for="date" id="byDateLable" hidden>Date:</label>
+                    <input type="text" class="form-control" id="byDate" hidden>
+                </div>
+                <button type="button" class="btn btn-primary" onclick="newUser()">Update</button>
+            </div>
+            <div class="col-9 bg-light border border-dark">
+                <nav>
+                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                        <button class="nav-link active" id="nav-games-tab" data-bs-toggle="tab"
+                            data-bs-target="#nav-games" type="button" role="tab" aria-controls="nav-games"
+                            aria-selected="true">Games</button>
+                        <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile"
+                            type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</button>
+                    </div>
+                </nav>
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="nav-games" role="tabpanel"
+                        aria-labelledby="nav-games-tab">
+                        <table class="table" id="myTable">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Date</th>
+                                    <th>User</th>
+                                    <th>vs</th>
+                                    <th>Opponent</th>
+                                    <th>Opening</th>
+                                    <th>Result</th>
+                                    <th>Extra</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody">
+                                <!-- populate here-->
+                            </tbody>
+                        </table>
+                        <div class="d-grid gap-2 col-6 mx-auto text-center">
+                            <input type="button" class="mb-3" value="Load more games" onclick="getData()">
                         </div>
-                    </nav>
-                    <div class="tab-content" id="nav-tabContent">
-                        <div class="tab-pane fade show active" id="nav-games" role="tabpanel" aria-labelledby="nav-games-tab">
-                            <table class="table" id="myTable">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Date</th>
-                                        <th>User</th>
-                                        <th>vs</th>
-                                        <th>Opponent</th>
-                                        <th>Opening</th>
-                                        <th>Result</th>
-                                        <th>Extra</th>
-                                    </tr>
-                                </thead>
-                                <tbody id = "tbody">
-                                    <!-- populate here-->
-                                </tbody>
-                            </table>
-                            <div class="d-grid gap-2 col-6 mx-auto text-center">
-                                <input type="button" class="mb-3" value="Load more games" onclick="getData()">
-                            </div>
-                        </div>
+                    </div>
                     <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                         Player stats<br>Some more info
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row"> <!-- Just here to add blank space at botton for the time being -->
-            <div class="col-12" style="height: 100px;"></div> 
+        <div class="row">
+            <!-- Just here to add blank space at botton for the time being -->
+            <div class="col-12" style="height: 100px;"></div>
         </div>
     </div>
 
-    <!-- <iframe src="https://lichess.org/embed/h255yrH1#76" width=600 height=397 frameborder=0></iframe> --> 
+    <!-- <iframe src="https://lichess.org/embed/h255yrH1#76" width=600 height=397 frameborder=0></iframe> -->
     <!-- https://lichess.org/developers -->
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+        crossorigin="anonymous"></script>
     <script src="src/Game.js"></script>
     <script src="src/ListNode.js"></script>
     <script src="src/LinkedList.js"></script>
     <script src="src/GameDatabase.js"></script>
     <script src="table.js"></script>
-    
+
 </body>
+
 </html>
