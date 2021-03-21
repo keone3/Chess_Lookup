@@ -85,6 +85,7 @@ async function getData() {
 				let opponentColour = ''
 				let userName = username
 				let opponentName =  ''
+				let speed = ''
 				
 				if('user' in specificMatch['players']['white']){
 					
@@ -138,7 +139,9 @@ async function getData() {
 					opponentRating = specificMatch['players']['white']['rating']
 				}
 
-				currentGame = new Game(gameID, userName, userColour, opponentColour, fullOpening, 'NA', 'NA','NA', 
+				speed = specificMatch['speed']// get game speed ie. bullet, blitz, rapid, classical
+
+				currentGame = new Game(gameID, userName, userColour, opponentColour, fullOpening, 'NA', 'NA',speed, 
 										outcome, userRating, opponentRating, opponentName, specificMatch['createdAt'])
 			}catch(error){
 				
@@ -182,9 +185,7 @@ function addRows(){
 	}
 	
 
-	// for (let j = 0; j < (timesQueried-1)*(10); j++){
-	// 	game = game.getNext()
-	// }
+	
 	while(game != null){
 		
 		let row = document.getElementById('tbody').insertRow()
