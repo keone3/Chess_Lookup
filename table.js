@@ -2,6 +2,11 @@
 const urlParams = new URLSearchParams(window.location.search);
 const username = urlParams.get("username").trim();
 
+let speed = "";
+let numberOfGames = "";
+let color = "";
+let dateSince = "";
+
 var api_url =
     "https://lichess.org/api/games/user/" +
     username +
@@ -43,7 +48,7 @@ function newUser() {
         let dateSince = document.getElementById("byDate").value;
         //date code here
     } else {
-        let numberOfGames = document.getElementById("byNumber").value;
+        numberOfGames = document.getElementById("byNumber").value;
         api_url =
             "https://lichess.org/api/games/user/" +
             username +
@@ -282,4 +287,40 @@ function timeSince(date) {
     }
 
     return interval + " " + intervalType + " ago";
+}
+
+function updatePage() {
+    //just a method stub for now
+    //fetch data from the page
+    //generate a new game list based on the fetched data
+    //update the history table
+    //update the analytics container
+}
+
+function fetchPageData() {
+    //just a stub for now
+    //fetch all the input data from the user. ie. username, number of games, etc..
+    speed = document.getElementById("variant").value;
+    color = document.getElementById("color").value;
+    numberOfGames = document.getElementById("byNumber").value;
+    dateSince = document.getElementById("byDate").value;
+    console.log(speed);
+    console.log(color);
+    console.log(numberOfGames);
+    console.log(dateSince);
+}
+
+function updateGameHistory(gameListHead) {
+    let currentGame = [];
+    while (gameListHead != null) {
+        currentGame = gameListHead.getGame().toTableFormat();
+
+        //update rows here with data from currentGame
+
+        gameListHead = gameListHead.getNext();
+    }
+}
+
+function updateAnalytics() {
+    // update the chart or whatever we have displayed in the main analytics container
 }
