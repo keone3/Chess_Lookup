@@ -2,6 +2,11 @@
 const urlParams = new URLSearchParams(window.location.search);
 const username = urlParams.get("username").trim();
 
+let speed = "";
+let numberOfGames = "";
+let color = "";
+let dateSince = "";
+
 var api_url =
     "https://lichess.org/api/games/user/" +
     username +
@@ -43,7 +48,7 @@ function newUser() {
         let dateSince = document.getElementById("byDate").value;
         //date code here
     } else {
-        let numberOfGames = document.getElementById("byNumber").value;
+        numberOfGames = document.getElementById("byNumber").value;
         api_url =
             "https://lichess.org/api/games/user/" +
             username +
@@ -295,6 +300,14 @@ function updatePage() {
 function fetchPageData() {
     //just a stub for now
     //fetch all the input data from the user. ie. username, number of games, etc..
+    speed = document.getElementById("variant").value;
+    color = document.getElementById("color").value;
+    numberOfGames = document.getElementById("byNumber").value;
+    dateSince = document.getElementById("byDate").value;
+    console.log(speed);
+    console.log(color);
+    console.log(numberOfGames);
+    console.log(dateSince);
 }
 
 function updateGameHistory(gameListHead) {
