@@ -283,3 +283,31 @@ function timeSince(date) {
 
     return interval + " " + intervalType + " ago";
 }
+
+function updatePage() {
+    //just a method stub for now
+    //fetch data from the page
+    //generate a new game list based on the fetched data
+    //update the history table
+    //update the analytics container
+}
+
+function fetchPageData() {
+    //just a stub for now
+    //fetch all the input data from the user. ie. username, number of games, etc..
+}
+
+function updateGameHistory(gameListHead) {
+    let currentGame = [];
+    while (gameListHead != null) {
+        currentGame = gameListHead.getGame().toTableFormat();
+
+        //update rows here with data from currentGame
+
+        gameListHead = gameListHead.getNext();
+    }
+}
+
+function updateAnalytics() {
+    // update the chart or whatever we have displayed in the main analytics container
+}
