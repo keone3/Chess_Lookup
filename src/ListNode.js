@@ -1,36 +1,29 @@
 //used as part of the LinkedList implementation
 
-class ListNode{
-
-    constructor(game, next, prev){
-
-        this.game = game
-        this.next = next
-        this.prev = prev//unused for now. Will implement as needed
-
+class ListNode {
+    constructor(game, next, prev) {
+        this.game = game;
+        this.next = next;
+        this.prev = prev; //unused for now. Will implement as needed
     }
 
-    
-    
     // Getters and Setters
-    getPrev(){
-        return this.prev
+    getPrev() {
+        return this.prev;
     }
-    setPrev(prev){
-        this.prev = prev 
+    setPrev(prev) {
+        this.prev = prev;
     }
-    getNext(){
-        return this.next
+    getNext() {
+        return this.next;
     }
-    setNext(next){
-        this.next = next
+    setNext(next) {
+        this.next = next;
     }
-    getGame(){
-        return this.game
+    getGame() {
+        return this.game;
     }
-    setGame(game){
-        this.game = game
+    setGame(game) {
+        this.game = game;
     }
-    
-
 }

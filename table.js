@@ -81,6 +81,7 @@ async function getData() {
                 let opponentColour = "";
                 let userName = username;
                 let opponentName = "";
+                let speed = "";
 
                 if ("user" in specificMatch["players"]["white"]) {
                     if (
@@ -142,6 +143,8 @@ async function getData() {
                         specificMatch["players"]["white"]["rating"];
                 }
 
+                speed = specificMatch["speed"]; // get game speed ie. bullet, blitz, rapid, classical
+
                 currentGame = new Game(
                     gameID,
                     userName,
@@ -150,7 +153,7 @@ async function getData() {
                     fullOpening,
                     "NA",
                     "NA",
-                    "NA",
+                    speed,
                     outcome,
                     userRating,
                     opponentRating,
@@ -204,9 +207,6 @@ function addRows() {
         table.deleteRow(0);
     }
 
-    // for (let j = 0; j < (timesQueried-1)*(10); j++){
-    // 	game = game.getNext()
-    // }
     while (game != null) {
         let row = document.getElementById("tbody").insertRow();
         let cell = row.insertCell();
