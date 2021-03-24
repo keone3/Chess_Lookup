@@ -71,20 +71,13 @@ class Game {
 
     getUser() {
         let temp = "";
-        temp =
-            this.colour + ": " + this.username + " (" + this.userRating + ")";
+        temp = " " + this.username + " (" + this.userRating + ")";
         return temp;
     }
 
     getOpponent() {
         let temp = "";
-        temp =
-            this.opponentColour +
-            ": " +
-            this.opponentName +
-            " (" +
-            this.opponentRating +
-            ")";
+        temp = " " + this.opponentName + " (" + this.opponentRating + ")";
         return temp;
     }
 

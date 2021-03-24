@@ -1,6 +1,6 @@
 /* Get the url parameters */
 const urlParams = new URLSearchParams(window.location.search);
-const username = urlParams.get("username").trim();
+let username = urlParams.get("username").trim();
 
 let speed = "";
 let numberOfGames = "";
@@ -10,16 +10,16 @@ let dateSince = "";
 var api_url =
     "https://lichess.org/api/games/user/" +
     username +
-    "?max=10&opening=true"; /* The default game request url until we update it inside getData */
+    "?max=10&opening=true"; /* The default game request url until we update it inside updateGameDatabase */
 var newGames; /* New list of games created from request url */
 var newGamesTrimed = []; /* One individual match's information to populate a single row of our table */
 var gameCounter = 0; /* Used to keep track of row number/how many games we have in the table */
-var loadingGames = false; /* Checks if we are in getData and won't let us enter it again until the last one is finished, 
+var loadingGames = false; /* Checks if we are in updateGameDatabase and won't let us enter it again until the last one is finished, 
 							this stops problems with spamming the get games button  */
 var timesQueried = 0;
 /* Load the first 10 games right away */
 
-getData();
+updateGameDatabase();
 
 var database = new GameDatabase();
 
@@ -56,10 +56,10 @@ function newUser() {
             numberOfGames +
             "&opening=true";
     }
-    getData();
+    updateGameDatabase();
 }
 
-async function getData() {
+async function updateGameDatabase() {
     timesQueried++;
     if (loadingGames == false) {
         loadingGames = true;
@@ -71,7 +71,6 @@ async function getData() {
             },
         });
         newGames = (await response.text()).match(/.+/g).map(JSON.parse);
-        console.log(newGames);
 
         // Update the url for the next request
         //api_url = "https://lichess.org/api/games/user/" + username + "?max=10&opening=true&until=" + (newGames[9]['createdAt'] - 1)
@@ -186,57 +185,10 @@ async function getData() {
             database.addGame(currentGame);
         }
 
-        addRows();
+        let filteredGameList = database.generateGameList(speed, color);
+        updateGameHistory(filteredGameList.getHead());
+        //update the graph/chart here
         loadingGames = false;
-    }
-}
-
-/* Fetch 10 games and desplay them on the table, then on button click, fetch 10 more games starting from the oldest game time in the last request, 
-then desplay those on the table too
-
-Use this to change information you are requesting: https://lichess.org/api#operation/apiGamesUser 
-*/
-
-/* Games will be JSON Data, we will need some way to remember where we are in the list of games when populating the table so we dont repeat (maybe using time of game or some sort of counter?) */
-
-/* If you are able to request games before a certain time that could be a solution to this problem. 
-Save the latest time in the first query, start the next request with that value as the earliest time to start the query at */
-
-function addRows() {
-    var numNewRows = 10;
-
-    let game = database.fullGameList.getHead();
-    let i = 1;
-    let table = document.getElementById("tbody");
-    while (table.rows.length > 0) {
-        table.deleteRow(0);
-    }
-
-    while (game != null) {
-        let row = document.getElementById("tbody").insertRow();
-        let cell = row.insertCell();
-        cell.appendChild(document.createTextNode(i));
-        cell = row.insertCell();
-        cell.appendChild(
-            document.createTextNode(game.getGame().getDatePlayed())
-        ); //dated played
-        cell = row.insertCell();
-        cell.appendChild(document.createTextNode(game.getGame().getUser())); //user
-        cell = row.insertCell();
-        cell.appendChild(document.createTextNode("vs.")); //vs
-        cell = row.insertCell();
-        cell.appendChild(document.createTextNode(game.getGame().getOpponent())); //Opponent
-        cell = row.insertCell();
-        cell.appendChild(
-            document.createTextNode(game.getGame().getOpeningGeneral())
-        ); //opening
-        cell = row.insertCell();
-        cell.appendChild(document.createTextNode(game.getGame().getOutcome())); //result
-        cell = row.insertCell();
-        cell.appendChild(document.createTextNode("na")); //not used
-
-        game = game.getNext();
-        i++;
     }
 }
 
@@ -290,11 +242,16 @@ function timeSince(date) {
 }
 
 function updatePage() {
-    //just a method stub for now
-    //fetch data from the page
-    //generate a new game list based on the fetched data
-    //update the history table
-    //update the analytics container
+    fetchPageData();
+    api_url =
+        "https://lichess.org/api/games/user/" +
+        username +
+        "?max=" +
+        numberOfGames +
+        "&opening=true";
+    //game history is updated inside updateGameDatabase.
+    //Otherwise it will update while still awaiting the response from lichess and the data will be outdated
+    updateGameDatabase();
 }
 
 function fetchPageData() {
@@ -304,20 +261,60 @@ function fetchPageData() {
     color = document.getElementById("color").value;
     numberOfGames = document.getElementById("byNumber").value;
     dateSince = document.getElementById("byDate").value;
-    console.log(speed);
-    console.log(color);
-    console.log(numberOfGames);
-    console.log(dateSince);
+    username = document.getElementById("username").value;
 }
 
 function updateGameHistory(gameListHead) {
-    let currentGame = [];
-    while (gameListHead != null) {
-        currentGame = gameListHead.getGame().toTableFormat();
+    // let currentGame = [];
+    // while (gameListHead != null) {
+    //     currentGame = gameListHead.getGame().toTableFormat();
 
-        //update rows here with data from currentGame
+    //     //update rows here with data from currentGame
 
-        gameListHead = gameListHead.getNext();
+    //     gameListHead = gameListHead.getNext();
+    // }
+
+    //let game = database.fullGameList.getHead();
+    let game = gameListHead;
+    let i = 1;
+    let table = document.getElementById("tbody");
+    while (table.rows.length > 0) {
+        table.deleteRow(0);
+    }
+
+    while (game != null) {
+        let userIMG = document.createElement("img");
+        let opIMG = document.createElement("img");
+        if (game.getGame().getColour() == "white") {
+            userIMG.src = "img/white.png";
+            opIMG.src = "img/black.png";
+        } else {
+            userIMG.src = "img/black.png";
+            opIMG.src = "img/white.png";
+        }
+        let row = document.getElementById("tbody").insertRow();
+        let cell = row.insertCell();
+        cell.appendChild(
+            document.createTextNode(game.getGame().getDatePlayed())
+        ); //dated played
+        cell = row.insertCell();
+        cell.appendChild(userIMG);
+        cell.appendChild(document.createTextNode(game.getGame().getUser())); //user
+        cell = row.insertCell();
+        cell.appendChild(document.createTextNode("vs.")); //vs
+        cell = row.insertCell();
+        cell.appendChild(opIMG);
+        cell.appendChild(document.createTextNode(game.getGame().getOpponent())); //Opponent
+        cell = row.insertCell();
+        cell.appendChild(
+            document.createTextNode(game.getGame().getOpeningGeneral())
+        ); //opening
+        cell = row.insertCell();
+        cell.appendChild(document.createTextNode(game.getGame().getOutcome())); //result
+        cell = row.insertCell();
+
+        game = game.getNext();
+        i++;
     }
 }
 
