@@ -16,7 +16,15 @@ class GameDatabase {
         let partitionedList = new LinkedList();
         let curr = this.fullGameList.getHead();
         while (curr != null) {
-            if (colour == "all") {
+            if (speed == "all" && colour == "all") {
+                let newNode = new ListNode(curr.getGame(), null, null);
+                partitionedList.addBack(newNode);
+            } else if (speed == "all") {
+                if (curr.getGame().getColour() == colour) {
+                    let newNode = new ListNode(curr.getGame(), null, null);
+                    partitionedList.addBack(newNode);
+                }
+            } else if (colour == "all") {
                 if (curr.getGame().getSpeed() == speed) {
                     let newNode = new ListNode(curr.getGame(), null, null);
                     partitionedList.addBack(newNode);
