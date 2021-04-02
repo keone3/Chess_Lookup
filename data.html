@@ -26,61 +26,14 @@
                         />
                         <label for="username">Lichess Username</label>
                     </form>
-                    <div>
-                        <input
-                            class="form-check-input"
-                            type="radio"
-                            name="flexRadioDefault"
-                            id="gamesByNumber"
-                            onclick="updateGamesByNumber()"
-                            checked
-                        />
-                        <label
-                            class="form-check-label"
-                            for="flexRadioDefault1"
-                            style="color: #fff"
-                            >Get games by number</label
-                        >
-                    </div>
-                    <div>
-                        <input
-                            class="form-check-input"
-                            type="radio"
-                            name="flexRadioDefault"
-                            id="gamesByDate"
-                            onclick="updateGamesByDate()"
-                        />
-                        <label
-                            class="form-check-label"
-                            for="flexRadioDefault1"
-                            style="color: #fff"
-                            >Get games by date</label
-                        >
-                    </div>
-                    <div class="form-group">
-                        <label
-                            for="games"
-                            id="byNumberLable"
-                            style="color: #fff"
-                            >Games:</label
-                        >
-                        <input type="text" class="form-control" id="byNumber" />
-                    </div>
-                    <div class="form-group">
-                        <label
-                            for="date"
-                            id="byDateLable"
-                            style="color: #fff"
-                            hidden
-                            >Date:</label
-                        >
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="byDate"
-                            hidden
-                        />
-                    </div>
+                    <label for="start" style="color: #fff">Games Since:</label>
+                    <input
+                        type="date"
+                        id="dateSince"
+                        name="dateSince"
+                        value="2021-01-01"
+                        style="color: #000"
+                    />
 
                     <div class="form-group">
                         <label
@@ -116,13 +69,33 @@
                             <option value="all">Both</option>
                         </select>
                     </div>
-
+                    <div class="form-group">
+                        <label for="data" id="dataLabel" style="color: #fff"
+                            >Data to Display:</label
+                        >
+                        <select
+                            id="data"
+                            class="form-select"
+                            aria-label="Data Type"
+                        >
+                            <option value="option1">Option 1</option>
+                            <option value="option2">Option 2</option>
+                            <option value="option3">Option 3</option>
+                        </select>
+                    </div>
                     <button
                         type="button"
                         class="btn btn-secondary"
                         onclick="updatePage()"
                     >
                         Update
+                    </button>
+                    <button
+                        type="button"
+                        class="btn btn-secondary"
+                        onclick="test()"
+                    >
+                        Test
                     </button>
                 </div>
             </div>
@@ -150,7 +123,6 @@
                             <th>Variant</th>
                             <th>Opening</th>
                             <th>Result</th>
-                            <th>Test</th>
                         </tr>
                     </thead>
                     <tbody id="tbody">

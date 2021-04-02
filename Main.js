@@ -3,66 +3,40 @@ const urlParams = new URLSearchParams(window.location.search);
 let username = urlParams.get("username").trim();
 
 let speed = "all";
-let numberOfGames = 35;
 let color = "all";
-let dateSince = "";
+let dateSince = "2021-01-01";
 
 var api_url =
     "https://lichess.org/api/games/user/" +
     username +
-    "?max=" +
-    numberOfGames +
-    "&opening=true"; /* The default game request url until we update it inside updateGameDatabase */
-var newGames; /* New list of games created from request url */
-var newGamesTrimed = []; /* One individual match's information to populate a single row of our table */
-var gameCounter = 0; /* Used to keep track of row number/how many games we have in the table */
-var loadingGames = false; /* Checks if we are in updateGameDatabase and won't let us enter it again until the last one is finished, 
-							this stops problems with spamming the get games button  */
-var timesQueried = 0;
-/* Load the first 10 games right away */
+    "?opening=true&since=" +
+    convertDate(dateSince);
+var newGames; //New list of games created from request url
+var newGamesTrimed = []; // One individual match's information to populate a single row of our table
+var gameCounter = 0; // Used to keep track of row number/how many games we have in the table
+var loadingGames = false; //Checks if we are in updateGameDatabase and won't let us enter it again until the last one is finished, this stops problems with spamming the get games button
+var database = new GameDatabase();
 
 updateGameDatabase();
 
-var database = new GameDatabase();
-
-function updateGamesByDate() {
-    if (document.getElementById("byDate").hidden) {
-        document.getElementById("byDate").hidden = false;
-        document.getElementById("byDateLable").hidden = false;
-        document.getElementById("byNumber").hidden = true;
-        document.getElementById("byNumberLable").hidden = true;
-    } else {
+async function usernameTest() {
+    try {
+        let test_url = "https://lichess.org/api/user/" + username;
+        let response = await fetch(test_url, {
+            headers: {
+                Accept: "application/x-ndjson",
+            },
+        });
+        let userTest = (await response.text()).match(/.+/g).map(JSON.parse);
+        document.getElementById("username").className = "form-control";
+        updateGameDatabase();
+    } catch (error) {
+        document.getElementById("username").className =
+            "form-control is-invalid";
     }
-}
-
-function updateGamesByNumber() {
-    if (document.getElementById("byNumber").hidden) {
-        document.getElementById("byNumber").hidden = false;
-        document.getElementById("byNumberLable").hidden = false;
-        document.getElementById("byDate").hidden = true;
-        document.getElementById("byDateLable").hidden = true;
-    } else {
-    }
-}
-
-function newUser() {
-    if (document.getElementById("byNumber").hidden) {
-        let dateSince = document.getElementById("byDate").value;
-        //date code here
-    } else {
-        numberOfGames = document.getElementById("byNumber").value;
-        api_url =
-            "https://lichess.org/api/games/user/" +
-            username +
-            "?max=" +
-            numberOfGames +
-            "&opening=true";
-    }
-    updateGameDatabase();
 }
 
 async function updateGameDatabase() {
-    timesQueried++;
     if (loadingGames == false) {
         loadingGames = true;
 
@@ -73,7 +47,6 @@ async function updateGameDatabase() {
             },
         });
         newGames = (await response.text()).match(/.+/g).map(JSON.parse);
-
         // Update the url for the next request
         //api_url = "https://lichess.org/api/games/user/" + username + "?max=10&opening=true&until=" + (newGames[9]['createdAt'] - 1)
 
@@ -81,7 +54,6 @@ async function updateGameDatabase() {
 
         for (let i = 0; i < newGames.length; i++) {
             let specificMatch = newGames[i];
-
             try {
                 let userColour = "";
                 let opponentColour = "";
@@ -118,9 +90,6 @@ async function updateGameDatabase() {
                 }
                 opponentName =
                     specificMatch["players"][opponentColour]["user"]["name"];
-
-                //gets game date
-                let gameTimeAgo = timeSince(specificMatch["createdAt"]);
 
                 //gets game ID
                 let gameID = specificMatch["id"];
@@ -183,8 +152,14 @@ async function updateGameDatabase() {
                     0
                 );
             }
-
-            database.addGame(currentGame);
+            if (
+                currentGame.getSpeed() == "bullet" ||
+                currentGame.getSpeed() == "blitz" ||
+                currentGame.getSpeed() == "rapid" ||
+                currentGame.getSpeed() == "classical"
+            ) {
+                database.addGame(currentGame);
+            }
         }
 
         let filteredGameList = database.generateGameList(speed, color);
@@ -194,7 +169,8 @@ async function updateGameDatabase() {
     }
 }
 
-/* https://stackoverflow.com/questions/3177836/how-to-format-time-since-xxx-e-g-4-minutes-ago-similar-to-stack-exchange-site */
+// https://stackoverflow.com/questions/3177836/how-to-format-time-since-xxx-e-g-4-minutes-ago-similar-to-stack-exchange-site
+// currently unused. left in if we decide to reuse again in the future.
 function timeSince(date) {
     if (typeof date !== "object") {
         date = new Date(date);
@@ -248,27 +224,20 @@ function updatePage() {
     api_url =
         "https://lichess.org/api/games/user/" +
         username +
-        "?max=" +
-        numberOfGames +
-        "&opening=true";
-    //game history is updated inside updateGameDatabase.
-    //Otherwise it will update while still awaiting the response from lichess and the data will be outdated
-    updateGameDatabase();
+        "?opening=true&since=" +
+        convertDate(dateSince);
+    usernameTest();
 }
 
 function fetchPageData() {
-    //just a stub for now
-    //fetch all the input data from the user. ie. username, number of games, etc..
     speed = document.getElementById("variant").value;
     color = document.getElementById("color").value;
-    numberOfGames = document.getElementById("byNumber").value;
-    dateSince = document.getElementById("byDate").value;
     username = document.getElementById("username").value;
+    dateSince = document.getElementById("dateSince").value;
 }
 
 function updateGameHistory(gameListHead) {
     let game = gameListHead;
-    let i = 1;
     let table = document.getElementById("tbody");
     while (table.rows.length > 0) {
         table.deleteRow(0);
@@ -308,10 +277,16 @@ function updateGameHistory(gameListHead) {
         cell = row.insertCell();
 
         game = game.getNext();
-        i++;
     }
 }
 
 function updateAnalytics() {
     // update the chart or whatever we have displayed in the main analytics container
+}
+
+//converts date in the format "yyyy-mm-dd" to unix timestamp + 86399 to get 11:59:59
+function convertDate(myDate) {
+    myDate = myDate.split("-");
+    let convertedDate = new Date(myDate[0], myDate[1] - 1, myDate[2]);
+    return Math.floor(convertedDate.getTime());
 }
