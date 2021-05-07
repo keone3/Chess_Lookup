@@ -26,7 +26,7 @@ class Game {
         this.speed = speed;
         this.outcome = outcome;
         this.userRating = userRating;
-        this.datePlayed = this.formatDate(datePlayed);
+        this.datePlayed = datePlayed;
         this.opponentColour = opponentColour;
         this.opponentName = opponentName;
         this.opponentRating = opponentRating;
@@ -66,6 +66,10 @@ class Game {
     }
 
     getDatePlayed() {
+        return this.formatDate(this.datePlayed);
+    }
+
+    getTimestamp() {
         return this.datePlayed;
     }
 

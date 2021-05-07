@@ -10,12 +10,11 @@ var api_url =
     "https://lichess.org/api/games/user/" +
     username +
     "?opening=true&since=" +
-    convertDate(dateSince);
+    convertDateToUnix(dateSince);
 var newGames; //New list of games created from request url
 var newGamesTrimed = []; // One individual match's information to populate a single row of our table
-var gameCounter = 0; // Used to keep track of row number/how many games we have in the table
 var loadingGames = false; //Checks if we are in updateGameDatabase and won't let us enter it again until the last one is finished, this stops problems with spamming the get games button
-var database = new GameDatabase();
+let database = new GameDatabase();
 
 updateGameDatabase();
 
@@ -50,7 +49,7 @@ async function updateGameDatabase() {
         // Update the url for the next request
         //api_url = "https://lichess.org/api/games/user/" + username + "?max=10&opening=true&until=" + (newGames[9]['createdAt'] - 1)
 
-        database.fullGameList.clear();
+        database.clearGames();
 
         for (let i = 0; i < newGames.length; i++) {
             let specificMatch = newGames[i];
@@ -119,7 +118,7 @@ async function updateGameDatabase() {
                 }
 
                 speed = specificMatch["speed"]; // get game speed ie. bullet, blitz, rapid, classical
-
+                console.log(specificMatch["createdAt"]);
                 currentGame = new Game(
                     gameID,
                     userName,
@@ -225,7 +224,7 @@ function updatePage() {
         "https://lichess.org/api/games/user/" +
         username +
         "?opening=true&since=" +
-        convertDate(dateSince);
+        convertDateToUnix(dateSince);
     usernameTest();
 }
 
@@ -285,8 +284,84 @@ function updateAnalytics() {
 }
 
 //converts date in the format "yyyy-mm-dd" to unix timestamp + 86399 to get 11:59:59
-function convertDate(myDate) {
+function convertDateToUnix(myDate) {
     myDate = myDate.split("-");
     let convertedDate = new Date(myDate[0], myDate[1] - 1, myDate[2]);
     return Math.floor(convertedDate.getTime());
+}
+
+function convertDate(myDate) {
+    myDate = myDate.split("-");
+    let convertedDate = new Date(myDate[0], myDate[1] - 1, myDate[2]);
+    return convertedDate;
+}
+
+function testChart() {
+    document.getElementById("dataArea").innerHTML = "";
+    console.log("here");
+    let margin = { top: 50, right: 50, bottom: 50, left: 50 },
+        width =
+            document.getElementById("dataArea").offsetWidth -
+            margin.right -
+            margin.left,
+        height = 500 - margin.top - margin.bottom;
+    let svG = d3
+        .select("#dataArea")
+        .append("svg")
+        .attr("width", width + margin.right + margin.left)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    let data = database.generateChartData(speed, color);
+    console.log(data);
+    console.log(new Date());
+
+    // X scale and Axis
+    let x = d3
+        .scaleTime()
+        .domain([convertDate(dateSince), new Date()]) // This is the min and the max of the data: 0 to 100 if percentages
+        .range([0, width]); // This is the corresponding value I want in Pixel
+    svG.append("g")
+        .attr("transform", "translate(0," + height + ")")
+        .call(d3.axisBottom(x));
+
+    // Y scale and Axis
+    let y = d3
+        .scaleLinear()
+        .domain([database.getMinRating() - 100, database.getMaxRating() + 100]) // This is the min and the max of the data: 0 to 100 if percentages
+        .range([height, 0]); // This is the corresponding value I want in Pixel
+    svG.append("g").call(d3.axisLeft(y));
+
+    // Add 3 dots for 0, 50 and 100%
+    // svG.selectAll("whatever")
+    //     .data(data)
+    //     .enter()
+    //     .append("circle")
+    //     .attr("cx", function (d) {
+    //         return x(d.x);
+    //     })
+    //     .attr("cy", function (d) {
+    //         return y(d.y);
+    //     })
+    //     .attr("r", 3)
+    //     .style("fill", "blue");
+    // console.log("gottem");
+
+    svG.append("path")
+        .datum(data)
+        .attr("fill", "none")
+        .attr("stroke", "steelblue")
+        .attr("stroke-width", 1)
+        .attr(
+            "d",
+            d3
+                .line()
+                .x(function (d) {
+                    return x(d.x);
+                })
+                .y(function (d) {
+                    return y(d.y);
+                })
+        );
 }

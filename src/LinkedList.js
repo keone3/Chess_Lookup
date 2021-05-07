@@ -77,4 +77,12 @@ class LinkedList {
     getSize() {
         return this.size;
     }
+
+    empty() {
+        if (this.size == 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
