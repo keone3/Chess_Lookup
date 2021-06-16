@@ -235,16 +235,16 @@ function fetchPageData() {
 }
 
 function updateGameHistory(gameListHead) {
-    let game = gameListHead;
+    let currentGame = gameListHead;
     let table = document.getElementById("tbody");
     while (table.rows.length > 0) {
         table.deleteRow(0);
     }
 
-    while (game != null) {
+    while (currentGame != null) {
         let userIMG = document.createElement("img");
         let opIMG = document.createElement("img");
-        if (game.game.colour == "white") {
+        if (currentGame.game.colour == "white") {
             userIMG.src = "img/white.png";
             opIMG.src = "img/black.png";
         } else {
@@ -253,24 +253,30 @@ function updateGameHistory(gameListHead) {
         }
         let row = document.getElementById("tbody").insertRow();
         let cell = row.insertCell();
-        cell.appendChild(document.createTextNode(game.game.getDatePlayed())); //dated played
+        cell.appendChild(
+            document.createTextNode(currentGame.game.getDatePlayed())
+        ); //dated played
         cell = row.insertCell();
         cell.appendChild(userIMG);
-        cell.appendChild(document.createTextNode(game.game.getUser())); //user
+        cell.appendChild(document.createTextNode(currentGame.game.getUser())); //user
         cell = row.insertCell();
         cell.appendChild(document.createTextNode("vs.")); //vs
         cell = row.insertCell();
         cell.appendChild(opIMG);
-        cell.appendChild(document.createTextNode(game.game.getOpponent())); //Opponent
+        cell.appendChild(
+            document.createTextNode(currentGame.game.getOpponent())
+        ); //Opponent
         cell = row.insertCell();
-        cell.appendChild(document.createTextNode(game.game.speed));
+        cell.appendChild(document.createTextNode(currentGame.game.speed));
         cell = row.insertCell();
-        cell.appendChild(document.createTextNode(game.game.openingGeneral)); //opening
+        cell.appendChild(
+            document.createTextNode(currentGame.game.openingGeneral)
+        ); //opening
         cell = row.insertCell();
-        cell.appendChild(document.createTextNode(game.game.outcome)); //result
+        cell.appendChild(document.createTextNode(currentGame.game.outcome)); //result
         cell = row.insertCell();
 
-        game = game.next;
+        currentGame = currentGame.next;
     }
 }
 
