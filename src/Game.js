@@ -32,45 +32,8 @@ class Game {
         this.opponentRating = opponentRating;
     }
 
-    //getters
-    getGameID() {
-        return this.gameID;
-    }
-
-    getColour() {
-        return this.colour;
-    }
-
-    getOpeningGeneral() {
-        return this.openingGeneral;
-    }
-
-    getOpeningSpecific() {
-        return this.openingSpecific;
-    }
-
-    getVariant() {
-        return this.variant;
-    }
-
-    getSpeed() {
-        return this.speed;
-    }
-
-    getOutcome() {
-        return this.outcome;
-    }
-
-    getUserRating() {
-        return this.userRating;
-    }
-
     getDatePlayed() {
         return this.formatDate(this.datePlayed);
-    }
-
-    getTimestamp() {
-        return this.datePlayed;
     }
 
     getUser() {

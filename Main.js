@@ -118,7 +118,6 @@ async function updateGameDatabase() {
                 }
 
                 speed = specificMatch["speed"]; // get game speed ie. bullet, blitz, rapid, classical
-                console.log(specificMatch["createdAt"]);
                 currentGame = new Game(
                     gameID,
                     userName,
@@ -152,17 +151,17 @@ async function updateGameDatabase() {
                 );
             }
             if (
-                currentGame.getSpeed() == "bullet" ||
-                currentGame.getSpeed() == "blitz" ||
-                currentGame.getSpeed() == "rapid" ||
-                currentGame.getSpeed() == "classical"
+                currentGame.speed == "bullet" ||
+                currentGame.speed == "blitz" ||
+                currentGame.speed == "rapid" ||
+                currentGame.speed == "classical"
             ) {
                 database.addGame(currentGame);
             }
         }
 
         let filteredGameList = database.generateGameList(speed, color);
-        updateGameHistory(filteredGameList.getHead());
+        updateGameHistory(filteredGameList.head);
         //update the graph/chart here
         loadingGames = false;
     }
@@ -245,7 +244,7 @@ function updateGameHistory(gameListHead) {
     while (game != null) {
         let userIMG = document.createElement("img");
         let opIMG = document.createElement("img");
-        if (game.getGame().getColour() == "white") {
+        if (game.game.colour == "white") {
             userIMG.src = "img/white.png";
             opIMG.src = "img/black.png";
         } else {
@@ -254,28 +253,24 @@ function updateGameHistory(gameListHead) {
         }
         let row = document.getElementById("tbody").insertRow();
         let cell = row.insertCell();
-        cell.appendChild(
-            document.createTextNode(game.getGame().getDatePlayed())
-        ); //dated played
+        cell.appendChild(document.createTextNode(game.game.getDatePlayed())); //dated played
         cell = row.insertCell();
         cell.appendChild(userIMG);
-        cell.appendChild(document.createTextNode(game.getGame().getUser())); //user
+        cell.appendChild(document.createTextNode(game.game.getUser())); //user
         cell = row.insertCell();
         cell.appendChild(document.createTextNode("vs.")); //vs
         cell = row.insertCell();
         cell.appendChild(opIMG);
-        cell.appendChild(document.createTextNode(game.getGame().getOpponent())); //Opponent
+        cell.appendChild(document.createTextNode(game.game.getOpponent())); //Opponent
         cell = row.insertCell();
-        cell.appendChild(document.createTextNode(game.getGame().getSpeed()));
+        cell.appendChild(document.createTextNode(game.game.speed));
         cell = row.insertCell();
-        cell.appendChild(
-            document.createTextNode(game.getGame().getOpeningGeneral())
-        ); //opening
+        cell.appendChild(document.createTextNode(game.game.openingGeneral)); //opening
         cell = row.insertCell();
-        cell.appendChild(document.createTextNode(game.getGame().getOutcome())); //result
+        cell.appendChild(document.createTextNode(game.game.outcome)); //result
         cell = row.insertCell();
 
-        game = game.getNext();
+        game = game.next;
     }
 }
 

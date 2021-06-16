@@ -15,7 +15,7 @@ class LinkedList {
             this.head = game;
             this.tail = game;
         } else {
-            this.tail.setNext(game);
+            this.tail.next = game;
             this.tail = game;
         }
         this.size++;
@@ -27,7 +27,7 @@ class LinkedList {
             this.head = game;
             this.tail = game;
         } else {
-            game.setNext(head);
+            game.next = head;
             this.head = game;
         }
         this.size++;
@@ -40,8 +40,8 @@ class LinkedList {
             this.tail = null;
             this.size = 0;
         } else {
-            this.tail = tail.getPrev();
-            this.tail.setNext(null);
+            this.tail = tail.prev;
+            this.tail.next = null;
             this.size--;
         }
     }
@@ -53,7 +53,7 @@ class LinkedList {
             this.head = null;
             this.tail = null;
         } else {
-            this.head = this.head.getNext();
+            this.head = this.head.next;
             this.size--;
         }
     }
@@ -63,19 +63,6 @@ class LinkedList {
         this.head = null;
         this.tail = null;
         this.size = 0;
-    }
-
-    //getters
-    getHead() {
-        return this.head;
-    }
-
-    getTail() {
-        return this.tail;
-    }
-
-    getSize() {
-        return this.size;
     }
 
     empty() {

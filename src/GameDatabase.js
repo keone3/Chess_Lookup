@@ -8,14 +8,14 @@ class GameDatabase {
     addGame(game) {
         // game is of type Game
         if (this.fullGameList.empty() == true) {
-            this.minRating = game.getUserRating();
-            this.maxRating = game.getUserRating();
+            this.minRating = game.userRating;
+            this.maxRating = game.userRating;
         }
-        if (this.minRating > game.getUserRating()) {
-            this.minRating = game.getUserRating();
+        if (this.minRating > game.userRating) {
+            this.minRating = game.userRating;
         }
-        if (this.maxRating < game.getUserRating()) {
-            this.maxRating = game.getUserRating();
+        if (this.maxRating < game.userRating) {
+            this.maxRating = game.userRating;
         }
 
         let gameNode = new ListNode(game, null, null); //creates node for the game
@@ -26,31 +26,28 @@ class GameDatabase {
         // generates and returns a list of game of the specified game speed and colour
 
         let partitionedList = new LinkedList();
-        let curr = this.fullGameList.getHead();
+        let curr = this.fullGameList.head;
         while (curr != null) {
             if (speed == "all" && colour == "all") {
-                let newNode = new ListNode(curr.getGame(), null, null);
+                let newNode = new ListNode(curr.game, null, null);
                 partitionedList.addBack(newNode);
             } else if (speed == "all") {
-                if (curr.getGame().getColour() == colour) {
-                    let newNode = new ListNode(curr.getGame(), null, null);
+                if (curr.game.colour == colour) {
+                    let newNode = new ListNode(curr.game, null, null);
                     partitionedList.addBack(newNode);
                 }
             } else if (colour == "all") {
-                if (curr.getGame().getSpeed() == speed) {
-                    let newNode = new ListNode(curr.getGame(), null, null);
+                if (curr.game.speed == speed) {
+                    let newNode = new ListNode(curr.game, null, null);
                     partitionedList.addBack(newNode);
                 }
             } else {
-                if (
-                    curr.getGame().getColour() == colour &&
-                    curr.getGame().getSpeed() == speed
-                ) {
-                    let newNode = new ListNode(curr.getGame(), null, null);
+                if (curr.game.colour == colour && curr.game.speed == speed) {
+                    let newNode = new ListNode(curr.game, null, null);
                     partitionedList.addBack(newNode);
                 }
             }
-            curr = curr.getNext();
+            curr = curr.next;
         }
 
         return partitionedList;
@@ -73,17 +70,17 @@ class GameDatabase {
     generateChartData(speed, color) {
         let gameList = this.generateGameList(speed, color);
         let chartData = [];
-        let currentGame = gameList.getHead();
+        let currentGame = gameList.head;
         chartData.push({
             x: new Date(),
-            y: currentGame.getGame().getUserRating(),
+            y: currentGame.game.userRating,
         });
         while (currentGame != null) {
             chartData.push({
-                x: new Date(currentGame.getGame().getTimestamp()),
-                y: currentGame.getGame().getUserRating(),
+                x: new Date(currentGame.game.datePlayed),
+                y: currentGame.game.userRating,
             });
-            currentGame = currentGame.getNext();
+            currentGame = currentGame.next;
         }
 
         return chartData;
