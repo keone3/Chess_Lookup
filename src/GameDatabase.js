@@ -53,14 +53,6 @@ class GameDatabase {
         return partitionedList;
     }
 
-    getMaxRating() {
-        return this.maxRating;
-    }
-
-    getMinRating() {
-        return this.minRating;
-    }
-
     clearGames() {
         this.fullGameList.clear();
         this.maxRating = 3500;

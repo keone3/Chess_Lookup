@@ -324,7 +324,7 @@ function testChart() {
     // Y scale and Axis
     let y = d3
         .scaleLinear()
-        .domain([database.getMinRating() - 100, database.getMaxRating() + 100]) // This is the min and the max of the data: 0 to 100 if percentages
+        .domain([database.minRating - 100, database.maxRating + 100]) // This is the min and the max of the data: 0 to 100 if percentages
         .range([height, 0]); // This is the corresponding value I want in Pixel
     svG.append("g").call(d3.axisLeft(y));
 
