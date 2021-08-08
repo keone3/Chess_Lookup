@@ -165,6 +165,7 @@ async function updateGameDatabase() {
         //update the graph/chart here
         loadingGames = false;
     }
+    testChart();
 }
 
 // https://stackoverflow.com/questions/3177836/how-to-format-time-since-xxx-e-g-4-minutes-ago-similar-to-stack-exchange-site
